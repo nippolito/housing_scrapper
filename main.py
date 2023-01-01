@@ -2,7 +2,6 @@
 
 import logging
 import yaml
-import sys
 from lib.notifier import Notifier
 from providers.processor import process_properties
 
@@ -26,6 +25,7 @@ for provider_name, provider_data in cfg['providers'].items():
         new_properties += process_properties(provider_name, provider_data)
     except Exception as e:
         logging.error(f"Error processing provider {provider_name}.\n{str(e)}")
+        raise e
 
 if len(new_properties) > 0:
     notifier.notify(new_properties)

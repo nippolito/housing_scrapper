@@ -17,14 +17,15 @@ class Zonaprop(BaseProvider):
                 break
             
             page_content = BeautifulSoup(page_response.content, 'lxml')
-            properties = page_content.find_all('div', class_='postingCard')
+            properties = page_content.find_all('div', {'data-qa': 'posting PROPERTY'})
 
             for prop in properties:
                 # if data-id was already processed we exit
                 if prop['data-id'] in processed_ids:
                     return
                 processed_ids.append(prop['data-id'])
-                title = prop.find('a', class_='go-to-posting').get_text().strip()
+                logging.info(prop['data-id'])
+                title = prop.find('a').get_text().strip()
                 price_section = prop.find('span', class_='firstPrice')
                 if price_section is not None:
                     title = title + ' ' + price_section['data-price']
@@ -34,8 +35,7 @@ class Zonaprop(BaseProvider):
                     'url': self.provider_data['base_url'] + prop['data-to-posting'],
                     'internal_id': prop['data-id'],
                     'provider': self.provider_name
-                    }
+                }
 
             page += 1
             page_link = self.provider_data['base_url'] + source.replace(".html", f"-pagina-{page}.html")
-    
