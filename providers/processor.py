@@ -37,7 +37,6 @@ def process_properties(provider_name, provider_data, filters=None):
                 # Insert and save for notification
                 logging.info('It is a new one')
                 is_out = provider.filter_unwanted(prop)
-                logging.info(is_out)
                 if is_out:
                     continue
                 register_property(conn, prop)

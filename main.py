@@ -16,7 +16,7 @@ disable_ssl = False
 if 'disable_ssl' in cfg:
     disable_ssl = cfg['disable_ssl']
 
-notifier = Notifier.get_instance(cfg['notifier'], disable_ssl)
+notifier = Notifier.get_instance(cfg['notifier'], disable_ssl, highlighters=cfg['highlighters'])
 
 new_properties = []
 for provider_name, provider_data in cfg['providers'].items():
