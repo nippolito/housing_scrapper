@@ -22,7 +22,7 @@ new_properties = []
 for provider_name, provider_data in cfg['providers'].items():
     try:
         logging.info(f"Processing provider {provider_name}")
-        new_properties += process_properties(provider_name, provider_data)
+        new_properties += process_properties(provider_name, provider_data, filters=cfg['filters'])
     except Exception as e:
         logging.error(f"Error processing provider {provider_name}.\n{str(e)}")
         raise e
