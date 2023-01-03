@@ -29,19 +29,26 @@ class Mercadolibre(BaseProvider):
                 href = section['href']
                 matches = re.search(regex, href)
                 internal_id = matches.group(1).replace('-', '')
-                price_section = section.find('span', class_='price-tag')
-                title_section = section.find('div', class_='ui-search-item__group--title')
-                title = title_section.find('span').get_text().strip() + \
-                    ': ' + title_section.find('h2').get_text().strip()
-                if price_section is not None:
-                    title = title + ' ' + price_section.get_text().strip()
+                symbol = section.find('span', class_='price-tag-symbol').get_text().strip()
+                price = section.find('span', class_='price-tag-fraction').get_text().strip()
+                title = section.select('h2.ui-search-item__title.ui-search-item__group__element.shops__items-group-details.shops__item-title')[0].get_text().strip()
+
+                feature = section.find_all('li', class_='ui-search-card-attributes__attribute')
+                m2 = feature[0].get_text().strip()
+                ambs = feature[1].get_text().strip()
+                neighborhood = section.select('span.ui-search-item__group__element.ui-search-item__location.shops__items-group-details')[0].get_text().strip()
         
                 yield {
                     'title': title, 
                     'url': href,
                     'internal_id': internal_id,
-                    'provider': self.provider_name
-                    }
+                    'provider': self.provider_name,
+                    'price': symbol + price,
+                    'expenses': None,
+                    'neighborhood': neighborhood,
+                    'm2': m2,
+                    'ambs': ambs
+                }
 
             from_ += 50
             page_link = self.provider_data['base_url'] + source + f"_Desde_{from_}_NoIndex_True"

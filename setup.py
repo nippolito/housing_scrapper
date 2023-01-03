@@ -14,6 +14,7 @@ def create_connection(db_file):
  
     return None
 
+
 def execute(conn, sql):
     try:
         c = conn.cursor()
@@ -23,6 +24,7 @@ def execute(conn, sql):
     except Exception as e:
         print(e)
 
+
 database = "properties.db"
 
 sql_create_properties_table = """ CREATE TABLE IF NOT EXISTS properties (
@@ -30,7 +32,12 @@ sql_create_properties_table = """ CREATE TABLE IF NOT EXISTS properties (
                                     internal_id text NOT NULL,
                                     provider text NOT NULL,
                                     url text NOT NULL,
-                                    captured_date integer DEFAULT CURRENT_TIMESTAMP
+                                    price text NULL,
+                                    expenses text NULL,
+                                    neighborhood text NULL,
+                                    m2 text NULL,
+                                    ambs text NULL,
+                                    captured_date integer DEFAULT CURRENT_TIMESTAMP,
                                 ); """
 
 sql_create_index_on_properties_table = """ CREATE INDEX properties_internal_provider ON properties (internal_id, provider); """

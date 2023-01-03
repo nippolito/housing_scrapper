@@ -35,9 +35,16 @@ class Notifier(NullNotifier):
         if self.highlighters:
             highlight = self.highlighted_message(prop)
 
-        message = f"[{prop['title']}]({prop['url']})"
+        message = f"""
+        [{prop['title']}]({prop['url']})
+        Rooms: {prop['ambs']}
+        Price: {prop['price']}
+        Expenses: {prop['expenses']}
+        m2: {prop['m2']}
+        Location: {prop['neighborhood']}"""
+
         if highlight:
-            message = highlight + message
+            message = highlight + '\n' + message
 
         self.bot.send_message(chat_id=self.config['chat_id'],
                     text=message,

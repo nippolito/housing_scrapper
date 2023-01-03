@@ -1,7 +1,7 @@
-#import requests
 from bs4 import BeautifulSoup
 import logging
 from providers.base_provider import BaseProvider
+
 
 class Zonaprop(BaseProvider):
     def props_in_source(self, source):
@@ -26,15 +26,31 @@ class Zonaprop(BaseProvider):
                 processed_ids.append(prop['data-id'])
                 logging.info(prop['data-id'])
                 title = prop.find('a').get_text().strip()
-                price_section = prop.find('span', class_='firstPrice')
-                if price_section is not None:
-                    title = title + ' ' + price_section['data-price']
-                    
+                price = prop.find('div', {'data-qa': 'POSTING_CARD_PRICE'}).get_text().strip()
+                expenses = prop.find('div', {'data-qa': 'expensas'}).get_text().strip()
+                neighborhood = prop.find('div', {'data-qa': 'POSTING_CARD_LOCATION'}).get_text().strip()
+                features = prop.find('div', {'data-qa': 'POSTING_CARD_FEATURES'}).find_all('span')
+
+                processed_features = []
+                for span in features:
+                    processed_features.append(span.find('span').get_text().strip())
+
+                # all_m2 = processed_features[0]
+                m2 = processed_features[1]
+                ambs = processed_features[2]
+                # dorms = processed_features[3]
+                # bathrooms = processed_features[4]
+
                 yield {
                     'title': title, 
                     'url': self.provider_data['base_url'] + prop['data-to-posting'],
                     'internal_id': prop['data-id'],
-                    'provider': self.provider_name
+                    'provider': self.provider_name,
+                    'price': price,
+                    'expenses': expenses,
+                    'neighborhood': neighborhood,
+                    'm2': m2,
+                    'ambs': ambs
                 }
 
             page += 1

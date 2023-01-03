@@ -35,8 +35,13 @@ class Argenprop(BaseProvider):
                     'title': title, 
                     'url': self.provider_data['base_url'] + href,
                     'internal_id': internal_id,
-                    'provider': self.provider_name
-                    }
+                    'provider': self.provider_name,
+                    'price': None,
+                    'expenses': None,
+                    'neighborhood': None,
+                    'm2': None,
+                    'ambs': None
+                }
 
             page += 1
             page_link = self.provider_data['base_url'] + source + f"-pagina-{page}"
