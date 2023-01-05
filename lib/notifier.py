@@ -1,6 +1,8 @@
+import datetime
 import telegram
 import logging
 import random
+import sqlite3
 from lib.sslless_session import SSLlessSession
 
 
@@ -22,14 +24,26 @@ class Notifier(NullNotifier):
     def notify(self, properties):
         logging.info(f'Notifying about {len(properties)} properties')
         text = random.choice(self.config['messages'])
-        self.bot.send_message(chat_id=self.config['chat_id'], text=text)
+        self.bot.send_message(chat_id=self.config['chat_id'], text=text.format(today=datetime.date.today()))
 
         for prop in properties:
             logging.info(f"Notifying about {prop['url']}")
             self.send_message(prop)
+            self.log_notified(prop)
 
     def test(self, message):
         self.bot.send_message(chat_id=self.config['chat_id'], text=message)
+
+    def log_notified(self, prop):
+        conn = sqlite3.connect('properties.db')
+        stmt = """UPDATE properties set notified = TRUE WHERE internal_id = :internal_id and provider = :provider"""
+        with conn:
+            cur = conn.cursor()
+            cur.execute(stmt, {
+                'internal_id': prop['internal_id'],
+                'provider': prop['provider']
+            })
+            cur.close()
 
     def send_message(self, prop):
         if self.highlighters:

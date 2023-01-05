@@ -27,9 +27,11 @@ class Zonaprop(BaseProvider):
                 logging.info(prop['data-id'])
                 title = prop.find('a').get_text().strip()
                 price = prop.find('div', {'data-qa': 'POSTING_CARD_PRICE'}).get_text().strip()
-                expenses = prop.find('div', {'data-qa': 'expensas'}).get_text().strip()
+                expenses = prop.find('div', class_='gIHCpf').find('div', {'data-qa': 'expensas'})
+                if expenses:
+                    expenses = expenses.get_text().strip()
                 neighborhood = prop.find('div', {'data-qa': 'POSTING_CARD_LOCATION'}).get_text().strip()
-                features = prop.find('div', {'data-qa': 'POSTING_CARD_FEATURES'}).find_all('span')
+                features = prop.find('div', {'data-qa': 'POSTING_CARD_FEATURES'}).find_all('span', recursive=False)
 
                 processed_features = []
                 for span in features:

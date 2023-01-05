@@ -8,7 +8,27 @@ from providers.inmobusqueda import Inmobusqueda
 
 
 def register_property(conn, prop):
-    stmt = 'INSERT INTO properties (internal_id, provider, url) VALUES (:internal_id, :provider, :url)'
+    stmt = """INSERT INTO properties (
+                title
+                , url
+                , internal_id
+                , provider
+                , price
+                , expenses
+                , neighborhood
+                , m2
+                , ambs
+        ) VALUES (
+                :title
+                , :url
+                , :internal_id
+                , :provider
+                , :price
+                , :expenses
+                , :neighborhood
+                , :m2
+                , :ambs
+        )"""
     try:
         conn.execute(stmt, prop)
     except Exception as e:
@@ -30,7 +50,10 @@ def process_properties(provider_name, provider_data, filters=None):
         for prop in provider.next_prop():
             cur = conn.cursor()
             logging.info(f"Processing id: {prop['internal_id']}")
-            cur.execute(stmt, {'internal_id': prop['internal_id'], 'provider': prop['provider']})
+            cur.execute(stmt, {
+                'internal_id': prop['internal_id'],
+                'provider': prop['provider']
+            })
             result = cur.fetchone()
             cur.close()
             if not result:

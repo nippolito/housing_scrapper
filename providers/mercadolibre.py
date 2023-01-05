@@ -33,9 +33,15 @@ class Mercadolibre(BaseProvider):
                 price = section.find('span', class_='price-tag-fraction').get_text().strip()
                 title = section.select('h2.ui-search-item__title.ui-search-item__group__element.shops__items-group-details.shops__item-title')[0].get_text().strip()
 
-                feature = section.find_all('li', class_='ui-search-card-attributes__attribute')
-                m2 = feature[0].get_text().strip()
-                ambs = feature[1].get_text().strip()
+                feature = section.find('ul', class_='shops__items-group-details').find_all('li', class_='ui-search-card-attributes__attribute')
+                try:
+                    m2 = feature[0].get_text().strip()
+                    ambs = feature[1].get_text().strip()
+                except Exception as e:
+                    logging.info(prop)
+                    logging.info(section)
+                    logging.info(feature)
+                    raise e
                 neighborhood = section.select('span.ui-search-item__group__element.ui-search-item__location.shops__items-group-details')[0].get_text().strip()
         
                 yield {

@@ -29,6 +29,7 @@ database = "properties.db"
 
 sql_create_properties_table = """ CREATE TABLE IF NOT EXISTS properties (
                                     id integer PRIMARY KEY,
+                                    title text NULL,
                                     internal_id text NOT NULL,
                                     provider text NOT NULL,
                                     url text NOT NULL,
@@ -38,6 +39,7 @@ sql_create_properties_table = """ CREATE TABLE IF NOT EXISTS properties (
                                     m2 text NULL,
                                     ambs text NULL,
                                     captured_date integer DEFAULT CURRENT_TIMESTAMP,
+                                    notified boolean DEFAULT FALSE
                                 ); """
 
 sql_create_index_on_properties_table = """ CREATE INDEX properties_internal_provider ON properties (internal_id, provider); """
