@@ -60,6 +60,7 @@ class Notifier(NullNotifier):
         if highlight:
             message = highlight + '\n' + message
 
+        message = message.replace('*', '').replace('_', '')
         self.bot.send_message(chat_id=self.config['chat_id'],
                     text=message,
                     parse_mode=telegram.ParseMode.MARKDOWN)
