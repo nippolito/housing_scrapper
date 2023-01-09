@@ -28,7 +28,12 @@ class Notifier(NullNotifier):
 
         for prop in properties:
             logging.info(f"Notifying about {prop['url']}")
-            self.send_message(prop)
+            try:
+                self.send_message(prop)
+            except telegram.error.TimedOut as e:
+                logging.error(e)
+                continue
+
             self.log_notified(prop)
 
     def test(self, message):
