@@ -44,13 +44,13 @@ def process_properties(provider_name, provider_data, filters=None):
     conn = sqlite3.connect('properties.db')
 
     # Check to see if we know it
-    stmt = 'SELECT * FROM properties WHERE internal_id=:internal_id AND provider=:provider'
+    get_property_statement = 'SELECT * FROM properties WHERE internal_id=:internal_id AND provider=:provider'
 
     with conn:
         for prop in provider.next_prop():
             cur = conn.cursor()
             logging.info(f"Processing id: {prop['internal_id']}")
-            cur.execute(stmt, {
+            cur.execute(get_property_statement, {
                 'internal_id': prop['internal_id'],
                 'provider': prop['provider']
             })
