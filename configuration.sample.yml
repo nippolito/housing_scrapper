@@ -10,3 +10,5 @@ providers:
         sources:
           - <PATH>
 disable_ssl: true | false
+highlighters: ''
+filters: false
