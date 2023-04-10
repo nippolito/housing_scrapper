@@ -10,10 +10,14 @@ This initial version is aimed at the Argentinean market, therefore there are onl
 
 I'd love to receive comments, bugs, ideas, suggestion (I don't use Python daily, please help me be more pythonic if you'd like to), etc. Hit me at rodrigouroz@gmail.com or file an issue in the repo.
 
-## Instalation
-This was tested with Python 3.8.
+## Virtual environment
 
-To install dependencies:
+- Activate: `source venv/bin/activate`
+- Deactivate: `deactivate`
+
+## Installation
+
+This was tested with Python 3.8. To install dependencies:
 
 `pip3 install -r requirements.txt`
 
@@ -96,3 +100,5 @@ To test: `python3 -m tests`
 That's up to you. What I've found more useful is to run it once an hour. For that I put it in the crontab:
 
 `0 * * * * cd /<PATH_TO_PROJECT>/housing_tracker && python3 main.py >> run.log 2>&1`
+
+You can also set the configuration `infinite_frequency: true` to make the script execute forever -script executes, sleeps 30 seconds, script executes, sleeps 30 seconds, ...-.
