@@ -46,6 +46,7 @@ while True:
             logging.info(f"Processing provider {provider_name}")
             process_properties(provider_name, provider_data, filters=cfg['filters'])
         except Exception as e:
+            logging.info(e)
             logging.error(f"Error processing provider {provider_name}.\n{str(e)}")
 
     new_properties = []
@@ -60,7 +61,11 @@ while True:
                 new_properties.append(prop)
 
     if len(new_properties) > 0:
+        logging.info("New properties appeared!")
         notifier.notify(new_properties)
+
+    if not cfg['infinite_frequency']:
+        break
 
     logging.info(f"Sleeping..., will continue in {SLEEP_SECONDS} seconds")
     time.sleep(SLEEP_SECONDS)

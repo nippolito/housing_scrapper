@@ -12,3 +12,4 @@ providers:
 disable_ssl: true | false
 highlighters: ''
 filters: false
+infinite_frequency: false    # set it to `true` to keep the script running forever (30 secs sleep between iterations)
