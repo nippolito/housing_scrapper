@@ -2,3 +2,4 @@ properties.db
 configuration.yml
 
 .idea/
+__pycache__*
