@@ -64,5 +64,8 @@ while True:
         logging.info("New properties appeared!")
         # notifier.notify(new_properties)
 
+    if not cfg['infinite_frequency']:
+        break
+
     logging.info(f"Sleeping..., will continue in {SLEEP_SECONDS} seconds")
     time.sleep(SLEEP_SECONDS)
